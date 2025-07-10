@@ -10,6 +10,11 @@ declare var self: Worker;
 let db: Dexie;
 let table: Table;
 let sql: initSqlJs.SqlJsStatic;
+/**
+ * sql.js is loaded from the CDN. Keep this version in sync with the
+ * dependency declared in package.json to avoid mismatches.
+ */
+const SQL_JS_VERSION = "1.13.0";
 
 async function init() {
   if (!db) {
@@ -20,7 +25,7 @@ async function init() {
     table = db.table("db");
     sql = await initSqlJs({
       locateFile: (file) =>
-        `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.11.0/${file}`,
+        `https://cdnjs.cloudflare.com/ajax/libs/sql.js/${SQL_JS_VERSION}/${file}`,
     });
   }
 }
