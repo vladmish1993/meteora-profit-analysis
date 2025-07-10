@@ -1,9 +1,4 @@
-import {
-  Button,
-  ButtonGroup,
-  DateRangePicker,
-  RangeValue,
-} from "@nextui-org/react";
+import { RangeValue } from "@nextui-org/react";
 import {
   CalendarDate,
   getLocalTimeZone,
@@ -69,39 +64,5 @@ export const PositionDateRangePicker = (props: {
     }
   }
 
-  return (
-    <div className="mr-4 my-4 max-w-sm whitespace-nowrap col-span-2">
-      <DateRangePicker
-        CalendarTopContent={
-          <ButtonGroup>
-            <Button color="primary" onPress={() => updateDates(today, true)}>
-              Today
-            </Button>
-            <Button
-              color="primary"
-              onPress={() => updateDates(last7Days, true)}
-            >
-              Last 7 Days
-            </Button>
-            <Button
-              color="primary"
-              onPress={() => updateDates(last30Days, true)}
-            >
-              Last 30 Days
-            </Button>
-          </ButtonGroup>
-        }
-        aria-label="Transaction Date Range"
-        isOpen={showCalendar}
-        label="Transaction Date Range"
-        value={dateRange}
-        onChange={(range) => {
-          if (range != null) {
-            updateDates(range);
-          }
-        }}
-        onOpenChange={(isOpen) => setShowCalendar(isOpen)}
-      />
-    </div>
-  );
+  return <div className="mr-4 my-4 max-w-sm whitespace-nowrap col-span-2" />;
 };

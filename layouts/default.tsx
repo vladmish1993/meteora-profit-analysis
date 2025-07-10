@@ -23,7 +23,9 @@ export default function DefaultLayout({
           href="https://tiplink.io/blinks/donate?dest=D2yGetspd22V3UFHTudRN1s7bU6DF7JNaLBCn2NQ2KHd"
           title="Buy GeekLad a Coffee or a Lambo"
         >
-          <span className="text-default-600">Made with ❤️ by GeekLad&nbsp;</span>
+          <span className="text-default-600">
+            Made with ❤️ by GeekLad&nbsp;
+          </span>
           <p className="text-primary">Buy him a coffee or a lambo</p>
         </Link>
       </footer>

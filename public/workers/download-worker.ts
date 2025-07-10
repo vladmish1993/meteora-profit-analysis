@@ -80,11 +80,11 @@ self.onmessage = async (event: MessageEvent<string | DataWorkerParameters>) => {
       throttleParameters: {
         rpc: {
           max: 1,
-          interval: 1 * 1000,
+          interval: 1000,
         },
         meteoraDlmm: {
           max: 4,
-          interval: 1 * 1000,
+          interval: 1000,
         },
         jupiterTokenList: {
           max: 8,
