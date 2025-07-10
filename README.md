@@ -122,3 +122,9 @@ output to `/out`. To build the project:
 ```bash
 bun run build
 ```
+
+### sql.js version
+
+The data worker loads `sql.js` from a CDN. Ensure that the version referenced
+in `public/workers/data-worker.ts` matches the `sql.js` dependency in
+`package.json` so the worker can locate the correct files.
