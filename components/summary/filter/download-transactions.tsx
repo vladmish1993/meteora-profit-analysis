@@ -1,16 +1,16 @@
 import { Button, Tooltip } from "@nextui-org/react";
-import { MeteoraDlmmDbTransactions } from "@geeklad/meteora-dlmm-db/dist/meteora-dlmm-db";
+import { ClmmDbTx } from "@vladmish1993/meteora-dlmm-db/dist/clmm-db";
 
 import { DownloadIcon } from "@/components/icons";
 import { downloadObjArrayAsCsv } from "@/services/util";
 import {
   applyFilter,
-  TransactionFilter,
+  TransactionFilter
 } from "@/components/summary/generate-summary";
 
 export const DownloadCsvButton = (props: {
   hidden?: boolean;
-  allTransactions: MeteoraDlmmDbTransactions[];
+  allTransactions: ClmmDbTx[];
   done: boolean;
   filter: TransactionFilter;
 }) => {
@@ -30,7 +30,7 @@ export const DownloadCsvButton = (props: {
 
           return { ...tx, date_time };
         }),
-        props.filter,
+        props.filter
       ),
       [
         "block_time",
@@ -57,8 +57,8 @@ export const DownloadCsvButton = (props: {
         "usd_impermanent_loss",
         "usd_pnl",
         "impermanent_loss",
-        "pnl",
-      ],
+        "pnl"
+      ]
     );
   };
 

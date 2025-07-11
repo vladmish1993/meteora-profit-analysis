@@ -1,7 +1,7 @@
-import { MeteoraDlmmDbTransactions } from "@geeklad/meteora-dlmm-db/dist/meteora-dlmm-db";
+import { ClmmDbTx } from "@vladmish1993/meteora-dlmm-db/dist/clmm-db";
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { useRouter } from "next/router";
-import { MeteoraDlmmDownloaderStats } from "@geeklad/meteora-dlmm-db/dist/meteora-dlmm-downloader";
+import { RaydiumClmmDownloaderStats } from "@vladmish1993/meteora-dlmm-db/dist/clmm-downloader";
 
 import { FullPageSpinner } from "../full-page-spinner";
 
@@ -11,7 +11,7 @@ import {
   generateSummary,
   TransactionFilter,
   applyFilter,
-  SummaryData,
+  SummaryData
 } from "@/components/summary/generate-summary";
 import { SummaryTop } from "@/components/summary/top";
 import { DataWorkerMessage } from "@/public/workers/download-worker";
@@ -19,7 +19,7 @@ import { DataWorkerMessage } from "@/public/workers/download-worker";
 export const Summary = (props: { downloadWorker: Worker }) => {
   const router = useRouter();
 
-  const [stats, setStats] = useState<MeteoraDlmmDownloaderStats>({
+  const [stats, setStats] = useState<RaydiumClmmDownloaderStats>({
     downloadingComplete: false,
     positionsComplete: false,
     transactionDownloadCancelled: false,
@@ -30,14 +30,14 @@ export const Summary = (props: { downloadWorker: Worker }) => {
     positionTransactionCount: 0,
     positionCount: 0,
     usdPositionCount: 0,
-    missingUsd: 0,
+    missingUsd: 0
   });
   const [allTransactions, setAllTransactions] = useState<
-    MeteoraDlmmDbTransactions[]
+    ClmmDbTx[]
   >([]);
   const [summary, setSummary] = useState<SummaryData>(generateSummary([]));
   const [filteredSummary, setFilteredSummary] = useState<SummaryData>(
-    generateSummary([]),
+    generateSummary([])
   );
   const start = useMemo(() => Date.now(), [router.query.walletAddress]);
   const [initialized, setInitialized] = useState(false);
@@ -45,49 +45,49 @@ export const Summary = (props: { downloadWorker: Worker }) => {
   const [done, setDone] = useState(false);
   const [cancelled, setCancelled] = useState(false);
   const [filter, setFilter] = useState<TransactionFilter | undefined>(
-    undefined,
+    undefined
   );
   const [quoteTokenDisplay, setQuoteTokenDisplay] = useState<JSX.Element[]>([]);
 
   const getDefaultFilter = useCallback(
     (
-      transactions: MeteoraDlmmDbTransactions[] = allTransactions,
+      transactions: ClmmDbTx[] = allTransactions
     ): TransactionFilter => {
       return {
         startDate:
           transactions.length > 0
             ? new Date(
-                Math.min(...transactions.map((tx) => tx.block_time * 1000)),
-              )
+              Math.min(...transactions.map((tx) => tx.block_time * 1000))
+            )
             : new Date("11/06/2023"),
         endDate:
           transactions.length > 0
             ? new Date(
-                Math.max(...transactions.map((tx) => tx.block_time * 1000)),
-              )
+              Math.max(...transactions.map((tx) => tx.block_time * 1000))
+            )
             : new Date(Date.now() + 1000 * 60 * 60 * 24),
         positionStatus: "all",
         hawksight: "include",
         baseTokenMints: new Set(transactions.map((tx) => tx.base_mint)),
         quoteTokenMints: new Set(transactions.map((tx) => tx.quote_mint)),
-        displayUsd: false,
+        displayUsd: false
       };
     },
-    [allTransactions],
+    [allTransactions]
   );
 
   const filterTransactions = useCallback(
     (
-      transactions: MeteoraDlmmDbTransactions[],
+      transactions: ClmmDbTx[],
       updatedFilter?: TransactionFilter,
-      reset = false,
+      reset = false
     ) => {
       setFilter((prevFilter) => {
         const newFilter = !reset
           ? {
-              ...(prevFilter || getDefaultFilter(transactions)),
-              ...updatedFilter,
-            }
+            ...(prevFilter || getDefaultFilter(transactions)),
+            ...updatedFilter
+          }
           : getDefaultFilter();
 
         const filteredTransactions = applyFilter(transactions, newFilter);
@@ -99,7 +99,7 @@ export const Summary = (props: { downloadWorker: Worker }) => {
         return updatedFilter;
       });
     },
-    [getDefaultFilter],
+    [getDefaultFilter]
   );
 
   const updateQuoteTokenDisplay = useCallback(
@@ -111,10 +111,10 @@ export const Summary = (props: { downloadWorker: Worker }) => {
             displayUsd={displayUsd}
             summary={s}
           />
-        )),
+        ))
       );
     },
-    [],
+    []
   );
 
   const cancel = useCallback(() => {
@@ -139,7 +139,7 @@ export const Summary = (props: { downloadWorker: Worker }) => {
           return;
         }
         throw new Error(
-          `Received unexpected message "${event.data}" from download worker!`,
+          `Received unexpected message "${event.data}" from download worker!`
         );
       }
       if (event.data.stats.downloadingComplete) {
@@ -157,7 +157,7 @@ export const Summary = (props: { downloadWorker: Worker }) => {
         filterTransactions(transactions, filter);
       }
     },
-    [filterTransactions, getDefaultFilter, initialized, filter],
+    [filterTransactions, getDefaultFilter, initialized, filter]
   );
 
   useEffect(() => {

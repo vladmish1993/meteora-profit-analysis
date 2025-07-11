@@ -6,21 +6,21 @@ import {
   PopoverTrigger,
   PopoverContent,
   Listbox,
-  ListboxItem,
+  ListboxItem
 } from "@nextui-org/react";
 import { Selection } from "@react-types/shared";
-import { MeteoraDlmmDbTransactions } from "@geeklad/meteora-dlmm-db/dist/meteora-dlmm-db";
+import { ClmmDbTx } from "@vladmish1993/meteora-dlmm-db/dist/clmm-db";
 import { useState } from "react";
 
 import {
   TransactionFilter,
   Token,
-  applyFilter,
+  applyFilter
 } from "@/components/summary/generate-summary";
 
 export const TokenSelector = (props: {
   hidden: boolean;
-  allTransactions: MeteoraDlmmDbTransactions[];
+  allTransactions: ClmmDbTx[];
   filter: TransactionFilter;
   selectedItems: Selection;
   baseTokenList: boolean;
@@ -33,14 +33,14 @@ export const TokenSelector = (props: {
   const tokens: Token[] = applyFilter(
     props.allTransactions,
     props.filter,
-    false,
+    false
   )
     .map((tx) => {
       return {
         mint: props.baseTokenList ? tx.base_mint : tx.quote_mint,
         symbol: props.baseTokenList ? tx.base_symbol : tx.quote_symbol,
         decimals: props.baseTokenList ? tx.base_decimals : tx.quote_decimals,
-        logo: props.baseTokenList ? tx.base_logo : tx.quote_logo,
+        logo: props.baseTokenList ? tx.base_logo : tx.quote_logo
       };
     })
     // Alphabetize
@@ -127,7 +127,7 @@ export const TokenSelector = (props: {
                 onPress={() => clear()}
               >
                 Select None
-              </ListboxItem>,
+              </ListboxItem>
             ].concat(
               tokens.map((token) => {
                 return (
@@ -140,7 +140,7 @@ export const TokenSelector = (props: {
                     {token.symbol}
                   </ListboxItem>
                 );
-              }),
+              })
             )}
           </Listbox>
         </PopoverContent>

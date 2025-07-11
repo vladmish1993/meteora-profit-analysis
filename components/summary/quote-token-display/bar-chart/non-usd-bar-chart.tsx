@@ -1,7 +1,7 @@
 import { ContentType } from "recharts/types/component/Tooltip";
 import {
   NameType,
-  ValueType,
+  ValueType
 } from "recharts/types/component/DefaultTooltipContent";
 import {
   ResponsiveContainer,
@@ -10,7 +10,7 @@ import {
   YAxis,
   Label,
   Bar,
-  Tooltip,
+  Tooltip
 } from "recharts";
 
 import { QuoteTokenSummary } from "@/components/summary/generate-summary";
@@ -34,7 +34,7 @@ export const QuoteTokenBarChartNonUsd = (props: {
           <p>
             Total Deposits:{" "}
             {deposits.toLocaleString(
-              Intl.NumberFormat().resolvedOptions().locale,
+              Intl.NumberFormat().resolvedOptions().locale
             )}
             {` ${props.summary.token.symbol}`}
           </p>
@@ -46,14 +46,14 @@ export const QuoteTokenBarChartNonUsd = (props: {
           <p>
             Impermanent Loss:{" "}
             {impermanentLoss.toLocaleString(
-              Intl.NumberFormat().resolvedOptions().locale,
+              Intl.NumberFormat().resolvedOptions().locale
             )}
             {` ${props.summary.token.symbol}`}
           </p>
           <p className="font-bold">
             Net Profit:{" "}
             {profit.toLocaleString(
-              Intl.NumberFormat().resolvedOptions().locale,
+              Intl.NumberFormat().resolvedOptions().locale
             )}
             {` ${props.summary.token.symbol}`}
           </p>
@@ -61,7 +61,7 @@ export const QuoteTokenBarChartNonUsd = (props: {
             Profit %:{" "}
             {profitPercent.toLocaleString(
               Intl.NumberFormat().resolvedOptions().locale,
-              { style: "percent", maximumFractionDigits: 2 },
+              { style: "percent", maximumFractionDigits: 2 }
             )}
           </p>
         </div>
@@ -78,7 +78,7 @@ export const QuoteTokenBarChartNonUsd = (props: {
         deposits: base.summary.deposits,
         fees: base.summary.fees,
         impermanentLoss: base.summary.impermanentLoss,
-        profit: base.summary.profit,
+        profit: base.summary.profit
       };
     })
     .sort((a, b) => b.profit - a.profit);

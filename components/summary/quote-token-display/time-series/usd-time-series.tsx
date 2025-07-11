@@ -5,7 +5,7 @@ import {
   ResponsiveContainer,
   Tooltip,
   XAxis,
-  YAxis,
+  YAxis
 } from "recharts";
 
 import { QuoteTokenSummary } from "@/components/summary/generate-summary";
@@ -47,7 +47,7 @@ export const UsdTimeSeries = (props: { summary: QuoteTokenSummary }) => {
             formatter={(value) =>
               value.toLocaleString(
                 Intl.NumberFormat().resolvedOptions().locale,
-                { style: "currency", currency: "USD" },
+                { style: "currency", currency: "USD" }
               )
             }
             labelFormatter={(timestamp) =>

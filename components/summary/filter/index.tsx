@@ -1,6 +1,6 @@
 import { Button, Card, CardBody, Selection, Switch } from "@nextui-org/react";
 import { useState } from "react";
-import { MeteoraDlmmDbTransactions } from "@geeklad/meteora-dlmm-db/dist/meteora-dlmm-db";
+import { ClmmDbTx } from "@vladmish1993/meteora-dlmm-db/dist/clmm-db";
 
 import { HawksightDropdown } from "./hawksight";
 import { DownloadCsvButton } from "./download-transactions";
@@ -11,12 +11,12 @@ import { PositionDateRangePicker } from "@/components/summary/filter/date-range-
 import { TokenSelector } from "@/components/summary/filter/token-selector";
 import {
   SummaryData,
-  TransactionFilter,
+  TransactionFilter
 } from "@/components/summary/generate-summary";
 
 export const Filter = (props: {
   data: SummaryData;
-  allTransactions: MeteoraDlmmDbTransactions[];
+  allTransactions: ClmmDbTx[];
   done: boolean;
   filter: TransactionFilter;
   filterTransactions: (filter: TransactionFilter) => any;
@@ -34,7 +34,7 @@ export const Filter = (props: {
           onClickCapture={() =>
             props.filterTransactions({
               ...props.filter,
-              displayUsd: !props.filter.displayUsd,
+              displayUsd: !props.filter.displayUsd
             })
           }
         >
@@ -89,7 +89,7 @@ export const Filter = (props: {
           onFilter={(selectedStatus) =>
             props.filterTransactions({
               ...props.filter,
-              hawksight: selectedStatus,
+              hawksight: selectedStatus
             })
           }
         />
@@ -103,7 +103,7 @@ export const Filter = (props: {
           onFilter={(selectedTokens: Selection) =>
             props.filterTransactions({
               ...props.filter,
-              quoteTokenMints: selectedTokens as Set<string>,
+              quoteTokenMints: selectedTokens as Set<string>
             })
           }
         />
@@ -117,7 +117,7 @@ export const Filter = (props: {
           onFilter={(selectedTokens: Selection) =>
             props.filterTransactions({
               ...props.filter,
-              baseTokenMints: selectedTokens as Set<string>,
+              baseTokenMints: selectedTokens as Set<string>
             })
           }
         />

@@ -4,7 +4,7 @@ import {
   ModalBody,
   ModalContent,
   ModalHeader,
-  useDisclosure,
+  useDisclosure
 } from "@nextui-org/react";
 import { useState } from "react";
 

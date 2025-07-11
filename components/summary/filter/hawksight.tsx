@@ -3,15 +3,15 @@ import {
   DropdownTrigger,
   Button,
   DropdownMenu,
-  DropdownItem,
+  DropdownItem
 } from "@nextui-org/react";
-import { MeteoraDlmmDbTransactions } from "@geeklad/meteora-dlmm-db/dist/meteora-dlmm-db";
+import { ClmmDbTx } from "@vladmish1993/meteora-dlmm-db/dist/clmm-db";
 
 import { HawksightStatus } from "@/components/summary/generate-summary";
 
 export const HawksightDropdown = (props: {
   hidden?: boolean;
-  allTransactions: MeteoraDlmmDbTransactions[];
+  allTransactions: ClmmDbTx[];
   status: HawksightStatus;
   onFilter: (selectedStatus: HawksightStatus) => any;
 }) => {

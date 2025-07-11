@@ -1,11 +1,11 @@
-import MeteoraDlmmDb, {
-  MeteoraDlmmDbTransactions,
-} from "@geeklad/meteora-dlmm-db/dist/meteora-dlmm-db";
-import MeteoraDlmmDownloader, {
-  MeteoraDlmmDownloaderStats,
-} from "@geeklad/meteora-dlmm-db/dist/meteora-dlmm-downloader";
+import ClmmDb, {
+  ClmmDbTx
+} from "@vladmish1993/meteora-dlmm-db/dist/clmm-db";
+import RaydiumDownloader, {
+  RaydiumClmmDownloaderStats
+} from "@vladmish1993/meteora-dlmm-db/dist/clmm-downloader";
 
-import { delay } from "../../services/util";
+import { delay } from "@/services/util";
 
 declare var self: Worker;
 
@@ -15,12 +15,12 @@ interface DataWorkerParameters {
 }
 
 export interface DataWorkerMessage {
-  transactions: MeteoraDlmmDbTransactions[];
-  stats: MeteoraDlmmDownloaderStats;
+  transactions: ClmmDbTx[];
+  stats: RaydiumClmmDownloaderStats;
 }
 
-let db: MeteoraDlmmDb;
-let downloader: MeteoraDlmmDownloader;
+let db: ClmmDb;
+let downloader: RaydiumDownloader;
 
 self.onmessage = async (event: MessageEvent<string | DataWorkerParameters>) => {
   let done = false;
@@ -28,11 +28,11 @@ self.onmessage = async (event: MessageEvent<string | DataWorkerParameters>) => {
   let dbReadTime = 0;
 
   const dbWorker = new Worker(
-    new URL("../../public/workers/data-worker", import.meta.url),
+    new URL("../../public/workers/data-worker", import.meta.url)
   );
 
   dbWorker.onmessage = async (
-    event: MessageEvent<string | MeteoraDlmmDbTransactions[]>,
+    event: MessageEvent<string | ClmmDbTx[]>
   ) => {
     const transactions = event.data;
     dbReadTime = Date.now() - start;
@@ -42,7 +42,7 @@ self.onmessage = async (event: MessageEvent<string | DataWorkerParameters>) => {
       : { downloadingComplete: true };
     self.postMessage({
       transactions,
-      stats,
+      stats
     } as DataWorkerMessage);
   };
 
@@ -60,36 +60,32 @@ self.onmessage = async (event: MessageEvent<string | DataWorkerParameters>) => {
           downloader.cancel();
         }
         await db.waitForSave();
-        db = await MeteoraDlmmDb.create();
+        db = await ClmmDb.create();
         await db.save();
         self.postMessage("reset");
         return;
 
       default:
         throw new Error(
-          `Download worker received unexpected message: "${event.data}"!`,
+          `Download worker received unexpected message: "${event.data}"!`
         );
     }
   } else {
     const { rpc, walletAddress } = event.data;
 
-    db = await MeteoraDlmmDb.load();
+    db = await ClmmDb.load();
     downloader = db.download({
       endpoint: rpc,
       account: walletAddress,
       throttleParameters: {
         rpc: {
           max: 1,
-          interval: 1000,
+          interval: 1000
         },
-        meteoraDlmm: {
-          max: 4,
-          interval: 1000,
-        },
-        jupiterTokenList: {
-          max: 8,
-          interval: 30 * 1000,
-        },
+        raydiumClmm: {
+          max: 1,
+          interval: 1_000
+        }
       },
       callbacks: {
         onDone: async () => {
@@ -97,8 +93,8 @@ self.onmessage = async (event: MessageEvent<string | DataWorkerParameters>) => {
           await db.waitForSave();
           db.delaySave = true;
           dbWorker.postMessage(walletAddress);
-        },
-      },
+        }
+      }
     });
 
     while (!done) {

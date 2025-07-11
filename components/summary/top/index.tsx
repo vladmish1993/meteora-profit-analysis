@@ -1,4 +1,4 @@
-import { MeteoraDlmmDownloaderStats } from "@geeklad/meteora-dlmm-db/dist/meteora-dlmm-downloader";
+import { RaydiumClmmDownloaderStats } from "@vladmish1993/meteora-dlmm-db/dist/clmm-downloader";
 
 import { SummaryData } from "../generate-summary";
 
@@ -9,7 +9,7 @@ export const SummaryTop = (props: {
   duration: number;
   done: boolean;
   data: SummaryData;
-  stats: MeteoraDlmmDownloaderStats;
+  stats: RaydiumClmmDownloaderStats;
   cancel: () => any;
   cancelled: boolean;
 }) => {

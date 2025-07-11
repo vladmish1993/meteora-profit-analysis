@@ -1,5 +1,5 @@
 import { Button, Card, CardBody } from "@nextui-org/react";
-import { MeteoraDlmmDownloaderStats } from "@geeklad/meteora-dlmm-db/dist/meteora-dlmm-downloader";
+import { RaydiumClmmDownloaderStats } from "@vladmish1993/meteora-dlmm-db/dist/clmm-downloader";
 import { useState } from "react";
 
 import { SummaryData } from "../../generate-summary";
@@ -7,7 +7,7 @@ import { SummaryData } from "../../generate-summary";
 export const SummaryRightLoading = (props: {
   done: boolean;
   data: SummaryData;
-  stats: MeteoraDlmmDownloaderStats;
+  stats: RaydiumClmmDownloaderStats;
   cancel: () => any;
 }) => {
   const [cancelling, setCancelling] = useState(false);

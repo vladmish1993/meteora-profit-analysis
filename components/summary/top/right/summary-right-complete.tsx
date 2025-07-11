@@ -1,5 +1,5 @@
 import { Card, CardBody } from "@nextui-org/react";
-import { MeteoraDlmmDownloaderStats } from "@geeklad/meteora-dlmm-db/dist/meteora-dlmm-downloader";
+import { RaydiumClmmDownloaderStats } from "@vladmish1993/meteora-dlmm-db/dist/clmm-downloader";
 
 import { LoadingItem } from "@/components/loading-status-item";
 import { SummaryData } from "@/components/summary/generate-summary";
@@ -7,7 +7,7 @@ import { SummaryData } from "@/components/summary/generate-summary";
 export const SummaryRightComplete = (props: {
   done: boolean;
   data: SummaryData;
-  stats: MeteoraDlmmDownloaderStats;
+  stats: RaydiumClmmDownloaderStats;
   cancel: () => any;
 }) => {
   if (
@@ -25,8 +25,8 @@ export const SummaryRightComplete = (props: {
               Intl.NumberFormat().resolvedOptions().locale,
               {
                 minimumFractionDigits: 0,
-                maximumFractionDigits: 0,
-              },
+                maximumFractionDigits: 0
+              }
             )}
           />
           <LoadingItem
@@ -38,8 +38,8 @@ export const SummaryRightComplete = (props: {
                 style: "currency",
                 currency: "USD",
                 minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              },
+                maximumFractionDigits: 2
+              }
             )}
           />
           <LoadingItem
@@ -51,8 +51,8 @@ export const SummaryRightComplete = (props: {
                 style: "currency",
                 currency: "USD",
                 minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              },
+                maximumFractionDigits: 2
+              }
             )}
           />
           <LoadingItem
@@ -64,8 +64,8 @@ export const SummaryRightComplete = (props: {
                 style: "currency",
                 currency: "USD",
                 minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              },
+                maximumFractionDigits: 2
+              }
             )}
           />
         </CardBody>

@@ -2,23 +2,25 @@
 const nextConfig = {
   output: 'export',
   productionBrowserSourceMaps: true,
-  experimental: { asyncWebAssembly: true, topLevelAwait: true },
+
+  // 1)  remove the obsolete experimental flags  ──────────────
+  // experimental: { asyncWebAssembly: true, topLevelAwait: true },
+
   webpack: (config) => {
     config.resolve.fallback = { fs: false };
 
-    /* 1.  **Remove** the existing alias that points 'sql.js' → 'sql-wasm.js' */
+    // keep your sql.js alias exactly as you had it
     delete config.resolve.alias?.['sql.js'];
-
-    /* 2.  **OPTION A (recommended)** – send everyone the ESM factory build */
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
-      'sql.js/dist/sql-wasm.js': 'sql.js/dist/sql-wasm.mjs'
-      //              ^ what packages ask for      ^ actual factory
+      'sql.js/dist/sql-wasm.js': 'sql.js/dist/sql-wasm.mjs',
     };
 
-    /*  -- or --
-       **OPTION B** – just stop aliasing altogether; let packages import 'sql.js'
-       directly, which gives them the factory function they expect.               */
+    // 2)  tell webpack to ignore .d.ts and .map it might encounter ─────
+    config.module.rules.push(
+      { test: /\.d\.ts$/,  loader: 'ignore-loader' },
+      { test: /\.js\.map$/, loader: 'ignore-loader' },
+    );
 
     return config;
   },

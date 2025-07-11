@@ -1,4 +1,4 @@
-import { MeteoraDlmmDbTransactions } from "@geeklad/meteora-dlmm-db/dist/meteora-dlmm-db";
+import { ClmmDbTx } from "@vladmish1993/meteora-dlmm-db/dist/clmm-db";
 
 export interface Token {
   mint: string;
@@ -58,6 +58,7 @@ export interface SummaryData {
 
 export type PositionStatus = "all" | "open" | "closed";
 export type HawksightStatus = "include" | "exclude" | "hawksightOnly";
+
 export interface TransactionFilter {
   startDate: Date;
   endDate: Date;
@@ -69,7 +70,7 @@ export interface TransactionFilter {
 }
 
 export function generateSummary(
-  transactions: MeteoraDlmmDbTransactions[],
+  transactions: ClmmDbTx[]
 ): SummaryData {
   const summary: SummaryData = {
     positionTransactionCount: 0,
@@ -80,7 +81,7 @@ export function generateSummary(
     usdProfit: 0,
     quote: new Map(),
     startDate: new Date(),
-    endDate: new Date(),
+    endDate: new Date()
   };
 
   const positions: Set<string> = new Set();
@@ -94,12 +95,12 @@ export function generateSummary(
         mint: tx.quote_mint,
         symbol: tx.quote_symbol,
         decimals: tx.quote_decimals,
-        logo: tx.quote_logo,
+        logo: tx.quote_logo
       };
 
       summary.quote.set(
         newQuoteToken.mint,
-        summarizeToken(transactions, newQuoteToken) as QuoteTokenSummary,
+        summarizeToken(transactions, newQuoteToken) as QuoteTokenSummary
       );
     }
   });
@@ -108,65 +109,65 @@ export function generateSummary(
   summary.usdLoadCount =
     summary.quote.size > 0
       ? Array.from(summary.quote.values())
-          .map((quoteSummary) => quoteSummary.summary.usdLoadCount)
-          .reduce((total, current) => total + current)
+        .map((quoteSummary) => quoteSummary.summary.usdLoadCount)
+        .reduce((total, current) => total + current)
       : 0;
   summary.usdFees =
     summary.quote.size > 0
       ? Array.from(summary.quote.values())
-          .map((quoteSummary) => quoteSummary.summary.usdFees)
-          .reduce((total, current) => total + current)
+        .map((quoteSummary) => quoteSummary.summary.usdFees)
+        .reduce((total, current) => total + current)
       : 0;
   summary.usdImpermanentLoss =
     summary.quote.size > 0
       ? Array.from(summary.quote.values())
-          .map((quoteSummary) => quoteSummary.summary.usdImpermanentLoss)
-          .reduce((total, current) => total + current)
+        .map((quoteSummary) => quoteSummary.summary.usdImpermanentLoss)
+        .reduce((total, current) => total + current)
       : 0;
   summary.usdProfit =
     summary.quote.size > 0
       ? Array.from(summary.quote.values())
-          .map((quoteSummary) => quoteSummary.summary.usdProfit)
-          .reduce((total, current) => total + current)
+        .map((quoteSummary) => quoteSummary.summary.usdProfit)
+        .reduce((total, current) => total + current)
       : 0;
 
   summary.quote = new Map(
     Array.from(summary.quote.values())
       .sort((a, b) => b.summary.transactionCount - a.summary.transactionCount)
-      .map((s) => [s.token.mint, s]),
+      .map((s) => [s.token.mint, s])
   );
 
   summary.startDate = new Date(
     Math.min(
       ...Array.from(summary.quote.values())
         .map((s) => s.transactionTimeSeries.map((t) => t.blockTime * 1000))
-        .flat(),
-    ),
+        .flat()
+    )
   );
 
   summary.startDate = new Date(
     Math.min(
       ...Array.from(summary.quote.values())
         .map((s) => s.transactionTimeSeries.map((t) => t.blockTime * 1000))
-        .flat(),
-    ),
+        .flat()
+    )
   );
 
   summary.endDate = new Date(
     Math.max(
       ...Array.from(summary.quote.values())
         .map((s) => s.transactionTimeSeries.map((t) => t.blockTime * 1000))
-        .flat(),
-    ),
+        .flat()
+    )
   );
 
   return summary;
 }
 
 function summarizeToken(
-  transactions: MeteoraDlmmDbTransactions[],
+  transactions: ClmmDbTx[],
   quoteToken: Token,
-  baseToken?: Token,
+  baseToken?: Token
 ): TokenSummary | QuoteTokenSummary {
   const { mint: quoteMint } = quoteToken;
   const baseMint = baseToken?.mint;
@@ -188,25 +189,25 @@ function summarizeToken(
     usdImpermanentLoss: 0,
     usdProfit: 0,
     startDate: new Date(),
-    endDate: new Date(),
+    endDate: new Date()
   };
 
   const tokenTransactions = transactions.filter(
     (tx) =>
       tx.quote_mint == quoteMint &&
-      (!baseMint || (baseMint && tx.base_mint == baseMint)),
+      (!baseMint || (baseMint && tx.base_mint == baseMint))
   );
 
   summary.startDate = new Date(tokenTransactions[0].block_time * 1000);
   summary.endDate = new Date(
-    tokenTransactions[tokenTransactions.length - 1].block_time * 1000,
+    tokenTransactions[tokenTransactions.length - 1].block_time * 1000
   );
 
   if (tokenTransactions.length == 0) {
     return {
       token: quoteToken,
       summary,
-      transactionTimeSeries,
+      transactionTimeSeries
     };
   }
 
@@ -234,7 +235,7 @@ function summarizeToken(
         mint: tx.base_mint,
         symbol: tx.base_symbol,
         decimals: tx.base_decimals,
-        logo: tx.base_logo,
+        logo: tx.base_logo
       });
     }
 
@@ -251,7 +252,7 @@ function summarizeToken(
       usdWithdraws,
       usdFees,
       usdImpermanentLoss,
-      usdProfit,
+      usdProfit
     } = summary;
 
     // Update if we have the position (i.e. grabbed the opening transaction)
@@ -291,7 +292,7 @@ function summarizeToken(
         usdWithdraws,
         usdFees,
         usdImpermanentLoss,
-        usdProfit,
+        usdProfit
       };
 
       // Add the time series data if it is a close transaction
@@ -301,9 +302,9 @@ function summarizeToken(
             .filter((t) => t.position_address == tx.position_address)
             .reduce(
               (total, t) => total + t.fee_amount + t.withdrawal - t.deposit,
-              0,
+              0
             ),
-          tx.quote_decimals,
+          tx.quote_decimals
         );
 
         let usdProfit = floor(
@@ -312,9 +313,9 @@ function summarizeToken(
             .reduce(
               (total, t) =>
                 total + t.usd_fee_amount + t.usd_withdrawal - t.usd_deposit,
-              0,
+              0
             ),
-          2,
+          2
         );
 
         if (transactionTimeSeries.length > 0) {
@@ -329,7 +330,7 @@ function summarizeToken(
           date,
           dateTime,
           profit,
-          usdProfit,
+          usdProfit
         });
       }
     }
@@ -339,26 +340,26 @@ function summarizeToken(
     return {
       token: baseToken,
       summary,
-      transactionTimeSeries,
+      transactionTimeSeries
     };
   }
 
   const base = Array.from(baseTokens.values()).map((baseToken) =>
-    summarizeToken(transactions, quoteToken, baseToken),
+    summarizeToken(transactions, quoteToken, baseToken)
   );
 
   return {
     token: quoteToken,
     summary,
     transactionTimeSeries,
-    base,
+    base
   };
 }
 
 export function applyFilter(
-  transactions: MeteoraDlmmDbTransactions[],
+  transactions: ClmmDbTx[],
   transactionFilter: TransactionFilter,
-  applyTokenFilters = true,
+  applyTokenFilters = true
 ) {
   return transactions.filter((tx) => {
     if (tx.block_time < transactionFilter.startDate.getTime() / 1000)

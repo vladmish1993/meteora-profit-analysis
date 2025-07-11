@@ -1,7 +1,8 @@
-import MeteoraDlmmDb, {
-  MeteoraDlmmDbTransactions,
-} from "@geeklad/meteora-dlmm-db/dist/meteora-dlmm-db";
+import ClmmDb, {
+  ClmmDbTx,
+} from "@vladmish1993/meteora-dlmm-db/dist/clmm-db";
 import initSqlJs, { type Database } from "sql.js";
+import pkg from "../../package.json" assert { type: "json" };
 import Dexie, { Table } from "dexie";
 import { delay } from "@/services/util";
 
@@ -14,7 +15,7 @@ let sql: initSqlJs.SqlJsStatic;
  * sql.js is loaded from the CDN. Keep this version in sync with the
  * dependency declared in package.json to avoid mismatches.
  */
-const SQL_JS_VERSION = "1.13.0";
+const SQL_JS_VERSION = pkg.dependencies["sql.js"].replace("^", "");
 
 async function init() {
   if (!db) {
@@ -31,13 +32,13 @@ async function init() {
 }
 
 export interface DataWorkerMessage {
-  transactions: MeteoraDlmmDbTransactions[];
+  transactions: ClmmDbTx[];
 }
 
 async function readData(walletAddress: string) {
   await init();
   const record = await table.get(1);
-  const transactions: MeteoraDlmmDbTransactions[] = [];
+  const transactions: ClmmDbTx[] = [];
   if (record?.data) {
     const db = new sql.Database(record?.data);
     const statement = db.prepare(`
@@ -46,7 +47,7 @@ async function readData(walletAddress: string) {
       }' and position_is_open = 0
     `);
     while (statement.step())
-      transactions.push(statement.getAsObject() as MeteoraDlmmDbTransactions);
+      transactions.push(statement.getAsObject() as ClmmDbTx);
     db.close();
     self.postMessage(
       transactions.filter((tx) => tx.owner_address == walletAddress),

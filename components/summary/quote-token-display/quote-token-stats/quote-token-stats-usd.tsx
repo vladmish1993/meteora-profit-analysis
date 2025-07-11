@@ -12,8 +12,8 @@ export const QuoteTokenStatsUsd = (props: { summary: QuoteTokenSummary }) => {
               style: "currency",
               currency: "USD",
               minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            },
+              maximumFractionDigits: 2
+            }
           )}
         </div>
       </div>
@@ -26,8 +26,8 @@ export const QuoteTokenStatsUsd = (props: { summary: QuoteTokenSummary }) => {
               style: "currency",
               currency: "USD",
               minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            },
+              maximumFractionDigits: 2
+            }
           )}
         </div>
       </div>
@@ -40,8 +40,8 @@ export const QuoteTokenStatsUsd = (props: { summary: QuoteTokenSummary }) => {
               style: "currency",
               currency: "USD",
               minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            },
+              maximumFractionDigits: 2
+            }
           )}
         </div>
       </div>
@@ -54,8 +54,8 @@ export const QuoteTokenStatsUsd = (props: { summary: QuoteTokenSummary }) => {
               style: "currency",
               currency: "USD",
               minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            },
+              maximumFractionDigits: 2
+            }
           )}
         </div>
       </div>
@@ -66,7 +66,7 @@ export const QuoteTokenStatsUsd = (props: { summary: QuoteTokenSummary }) => {
             props.summary.summary.usdProfit / props.summary.summary.usdDeposits
           ).toLocaleString(Intl.NumberFormat().resolvedOptions().locale, {
             style: "percent",
-            maximumFractionDigits: 2,
+            maximumFractionDigits: 2
           })}
         </div>
       </div>
@@ -74,7 +74,7 @@ export const QuoteTokenStatsUsd = (props: { summary: QuoteTokenSummary }) => {
         <div className="flex-1"># of Positions:</div>
         <div className="flex-1 text-right">
           {props.summary.summary.positionCount.toLocaleString(
-            Intl.NumberFormat().resolvedOptions().locale,
+            Intl.NumberFormat().resolvedOptions().locale
           )}
         </div>
       </div>
@@ -82,7 +82,7 @@ export const QuoteTokenStatsUsd = (props: { summary: QuoteTokenSummary }) => {
         <div className="flex-1"># of Txns:</div>
         <div className="flex-1 text-right">
           {props.summary.summary.transactionCount.toLocaleString(
-            Intl.NumberFormat().resolvedOptions().locale,
+            Intl.NumberFormat().resolvedOptions().locale
           )}
         </div>
       </div>

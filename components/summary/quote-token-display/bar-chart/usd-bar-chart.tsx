@@ -1,7 +1,7 @@
 import { ContentType } from "recharts/types/component/Tooltip";
 import {
   NameType,
-  ValueType,
+  ValueType
 } from "recharts/types/component/DefaultTooltipContent";
 import {
   ResponsiveContainer,
@@ -10,7 +10,7 @@ import {
   YAxis,
   Label,
   Bar,
-  Tooltip,
+  Tooltip
 } from "recharts";
 
 import { QuoteTokenSummary } from "@/components/summary/generate-summary";
@@ -39,8 +39,8 @@ export const QuoteTokenBarChartUsd = (props: {
                 style: "currency",
                 currency: "USD",
                 minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              },
+                maximumFractionDigits: 2
+              }
             )}
           </p>
           <p>
@@ -51,8 +51,8 @@ export const QuoteTokenBarChartUsd = (props: {
                 style: "currency",
                 currency: "USD",
                 minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              },
+                maximumFractionDigits: 2
+              }
             )}
           </p>
           <p>
@@ -63,8 +63,8 @@ export const QuoteTokenBarChartUsd = (props: {
                 style: "currency",
                 currency: "USD",
                 minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              },
+                maximumFractionDigits: 2
+              }
             )}
           </p>
           <p className="font-bold">
@@ -75,15 +75,15 @@ export const QuoteTokenBarChartUsd = (props: {
                 style: "currency",
                 currency: "USD",
                 minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              },
+                maximumFractionDigits: 2
+              }
             )}
           </p>
           <p className="font-bold">
             Profit %:{" "}
             {profitPercent.toLocaleString(
               Intl.NumberFormat().resolvedOptions().locale,
-              { style: "percent", maximumFractionDigits: 2 },
+              { style: "percent", maximumFractionDigits: 2 }
             )}
           </p>
         </div>
@@ -100,7 +100,7 @@ export const QuoteTokenBarChartUsd = (props: {
         usdDeposits: base.summary.usdDeposits,
         usdFees: base.summary.usdFees,
         usdImpermanentLoss: base.summary.usdImpermanentLoss,
-        usdProfit: base.summary.usdProfit,
+        usdProfit: base.summary.usdProfit
       };
     })
     .sort((a, b) => b.usdProfit - a.usdProfit);
@@ -132,8 +132,8 @@ export const QuoteTokenBarChartUsd = (props: {
                   style: "currency",
                   currency: "USD",
                   minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                },
+                  maximumFractionDigits: 2
+                }
               )
             }
             labelStyle={{ color: "black" }}

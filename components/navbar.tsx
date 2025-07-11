@@ -2,7 +2,7 @@ import {
   Navbar as NextUINavbar,
   NavbarContent,
   NavbarBrand,
-  NavbarItem,
+  NavbarItem
 } from "@nextui-org/react";
 import Link from "next/link";
 

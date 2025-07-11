@@ -29,12 +29,12 @@ export const LoadingItem = (props: {
       <div className="ml-auto">
         {typeof props.value == "number"
           ? props.value.toLocaleString(
-              Intl.NumberFormat().resolvedOptions().locale,
-              {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0,
-              },
-            )
+            Intl.NumberFormat().resolvedOptions().locale,
+            {
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0
+            }
+          )
           : props.value}
       </div>
     </div>
